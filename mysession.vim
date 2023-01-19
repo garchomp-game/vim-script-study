@@ -31,33 +31,15 @@ badd +1 ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/type/
 badd +1 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/DemoApplication.java
 badd +1 ~/.config/nvim/lua/custom/init.lua
 badd +1 ~/.config/nvim/lua/custom/plugins/init.lua
-badd +0 ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua
-badd +1 .
+badd +1 ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua
+badd +1 ~/workspace/vim-script-study
 argglobal
 %argdel
 set lines=49 columns=191
 tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabrewind
-edit main.vim
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-wincmd _ | wincmd |
-vsplit
-1wincmd h
-wincmd w
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
-wincmd t
-let s:save_winminheight = &winminheight
-let s:save_winminwidth = &winminwidth
-set winminheight=0
-set winheight=1
-set winminwidth=0
-set winwidth=1
-exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
-exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
+edit memo.md
 argglobal
 setlocal fdm=manual
 setlocal fde=0
@@ -69,37 +51,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 5 - ((4 * winheight(0) + 23) / 46)
+let s:l = 227 - ((43 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 5
+keepjumps 227
 normal! 0
-wincmd w
-argglobal
-if bufexists(fnamemodify("memo.md", ":p")) | buffer memo.md | else | edit memo.md | endif
-if &buftype ==# 'terminal'
-  silent file memo.md
-endif
-setlocal fdm=manual
-setlocal fde=0
-setlocal fmr={{{,}}}
-setlocal fdi=#
-setlocal fdl=0
-setlocal fml=1
-setlocal fdn=20
-setlocal fen
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 1 - ((0 * winheight(0) + 23) / 46)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 1
-normal! 0
-wincmd w
-exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
-exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 tabnext
 edit ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/DemoApplication.java
 let s:save_splitbelow = &splitbelow
