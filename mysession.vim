@@ -13,11 +13,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +95 memo.md
-badd +3 main.vim
+badd +1 memo.md
+badd +5 main.vim
 badd +54 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/pokedex/PokedexController.java
 badd +38 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/item/ItemController.java
-badd +1 ~/.config/nvim/lua/custom/mappings/init.lua
+badd +62 ~/.config/nvim/lua/custom/mappings/init.lua
 badd +41 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/pokedex/StatusController.java
 badd +33 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/translate/TranslateController.java
 badd +53 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/type/TypeController.java
@@ -27,15 +27,19 @@ badd +47 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp
 badd +19 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/convert/ConvertController.java
 badd +1 ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/translate/translate.json
 badd +1 ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/type/list.json
-badd +0 ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/type/type.json
-badd +12 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/DemoApplication.java
+badd +1 ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/type/type.json
+badd +1 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/DemoApplication.java
+badd +1 ~/.config/nvim/lua/custom/init.lua
+badd +1 ~/.config/nvim/lua/custom/plugins/init.lua
+badd +0 ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua
+badd +1 .
 argglobal
 %argdel
 set lines=49 columns=191
 tabnew +setlocal\ bufhidden=wipe
 tabnew +setlocal\ bufhidden=wipe
 tabrewind
-edit memo.md
+edit main.vim
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -65,17 +69,17 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 90 - ((39 * winheight(0) + 23) / 46)
+let s:l = 5 - ((4 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 90
+keepjumps 5
 normal! 0
 wincmd w
 argglobal
-if bufexists(fnamemodify("main.vim", ":p")) | buffer main.vim | else | edit main.vim | endif
+if bufexists(fnamemodify("memo.md", ":p")) | buffer memo.md | else | edit memo.md | endif
 if &buftype ==# 'terminal'
-  silent file main.vim
+  silent file memo.md
 endif
 setlocal fdm=manual
 setlocal fde=0
@@ -87,11 +91,11 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 3 - ((2 * winheight(0) + 23) / 46)
+let s:l = 1 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 3
+keepjumps 1
 normal! 0
 wincmd w
 exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
@@ -139,6 +143,7 @@ if bufexists(fnamemodify("~/workspace/pokemon_community_app/myapp/src/main/resou
 if &buftype ==# 'terminal'
   silent file ~/workspace/pokemon_community_app/myapp/src/main/resources/pokedex/type/type.json
 endif
+balt ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/DemoApplication.java
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -159,9 +164,27 @@ wincmd w
 exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
 exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 tabnext
-edit ~/.config/nvim/lua/custom/mappings/init.lua
+edit ~/.config/nvim/lua/custom/plugins/init.lua
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 argglobal
-balt ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/item/ItemController.java
+balt ~/.config/nvim/lua/custom/init.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -172,12 +195,38 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 62 - ((45 * winheight(0) + 23) / 46)
+let s:l = 1 - ((0 * winheight(0) + 23) / 46)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 62
+keepjumps 1
 normal! 0
+wincmd w
+argglobal
+if bufexists(fnamemodify("~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua", ":p")) | buffer ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua | else | edit ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua | endif
+if &buftype ==# 'terminal'
+  silent file ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua
+endif
+balt ~/.config/nvim/lua/custom/plugins/init.lua
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1 - ((0 * winheight(0) + 23) / 46)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1
+normal! 0
+wincmd w
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -185,6 +234,8 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
