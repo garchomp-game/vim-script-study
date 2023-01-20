@@ -1,6 +1,19 @@
-echo 3218.4
-let msg = ['you', 'got', 3, 'mails']
-echo msg[0]
-echo msg[1]
-echo msg[2]
-echo msg[3]
+" メンバ定義部分
+let g:vec2d = {
+      \'x':0, 
+      \'y':0
+      \}
+
+" コンストラクタ
+function! NewVec2D(x, y)
+  let self = copy(g:vec2d)
+  let self.x = a:x
+  let self.y = a:y
+  return self
+endfunction
+
+" メソッド定義
+function! g:vec2d.len() dict
+  return sqrt(self.x * self.x + self.y * self.y)
+endfunction
+

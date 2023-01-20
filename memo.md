@@ -383,7 +383,221 @@ echo x y
 以下は再帰関数の例
 
 ```vim
-function! Factorial(num)
-  return a:num > 1 ? a:num * Factorial(a:num - 1) : 1
+function! s:Factorial(num)
+  return a:num > 1 ? a:num * s:Factorial(a:num - 1) : 1
 endfunction
 ```
+
+function!ではなく、functionを使う事もできるが、functionを使った場合、
+もし定義済みの関数が会った場合はエラーになるので、
+基本的にはfunction!を使ったほうが安全である。
+
+なお、function!にもスコープの指定は可能
+関数の引数は最大２０個まで受け取ることができる。
+
+可変長引数は、a:000で可変長引数の配列の参照ができる。
+a:0で、可変長引数の数を取得することができる。(つまりlen(a:000)と同じ)
+
+```vim
+function! Average(...)
+  let total = 0.0
+  for item in a:000
+    let total += item
+  endfor
+  return total / a:0
+endfunction
+```
+
+### 関数のオプション
+
+関数の定義には、range,abort,dictの３つのオプションを指定することが可能。
+
+- rangeオプション
+callコマンドで関数を呼び出すときに範囲指定した場合に、
+その関数をどのように呼び出すかを決定する。
+callコマンドは通常のexコマンドの一つのため、範囲指定を受け付ける。
+rangeオプションが指定されていない関数を範囲指定して呼び出すと、
+範囲の最初から最後まで1行ずつカーソルを移動しつつ、複数回その関数が呼び出される。
+
+```vim
+function! WithoutRange() range
+  echo line('.')
+endfunction
+```
+
+:7,11call WithRange()とすることで、呼び出すことができる。
+
+- abortオプション
+関数内の処理でエラーが発生した場合、実行を中断する
+
+```vim
+function! WithAbort() abort
+  let v = undefined_variable
+  echo "OMG (not aborted)"
+endfunction
+```
+
+- dictオプション
+辞書関数を定義するのに使う。
+
+### スクリプトローカル関数
+
+スクリプトローカル関数は、スクリプトファイル無いからのみ
+呼び出せる関数。
+
+```vim
+function! s:world()
+ return "World"
+endfunction
+
+function! Hello()
+  return 'hello ' . s:world()
+endfunction
+```
+
+いわゆるプライベートメソッドである。
+
+### autoload関数
+
+autoloadは、起動直後はすぐには読み込まれない関数。
+これにより、起動速度の向上が期待できる。
+
+autoload関数は、一つ以上関数に#がついているものが対象になる。
+
+呼び出す場合は、
+:call filename#funcname()
+といった形で呼び出す。関数の定義は以下の通りである。
+
+```vim
+function filename#funcname()
+  echo 'Done!'
+endfunction
+```
+
+### 関数の呼び出し
+
+呼び出し方は以下の三種類
+
+- 評価(expr)
+- callコマンド
+- call関数
+
+```vim
+function! Fibo(num)
+  if a:num == 0
+    return 0
+  elseif a:num == 1
+    return 1
+  else
+    return Fibo(a:num - 1) + Fibo(a:num - 2)
+  endif
+endfunction
+
+for i in range(1, 10)
+  " echo Fibo(i)
+  echo call('Fibo', [i])
+endfor
+```
+
+再帰呼び出しには、階層に制限がある。
+デフォルトの上限は、maxfuncdepth = 100となっている
+
+### fizzbuzzのサンプルとループ文
+
+```vim
+function! FizzBuzz(num)
+  if a:num % 3 == 0 && a:num % 5 == 0
+    return 'FizzBuzz'
+  elseif a:num % 3 == 0
+    return 'Fizz'
+  elseif a:num % 5 == 0
+    return 'Buzz'
+  else
+    return a:num
+  endif
+endfunction
+
+for i in range(1, 100)
+  echo FizzBuzz(i)
+endfor
+```
+
+基本的に、ループ分はwhileを使うのば主流。
+なぜなら、for文は、for~inの形で使うためである。
+
+ちなみに、vimにはcontinue break文が普通に存在する。
+
+### 例外について
+
+例外は以下のような形で投げられる
+
+```vim
+function! Assert1to10(num)
+  if a:num < 1 || a:num > 10
+    throw 'Out of range: ' . a:num
+  endif
+endfunction
+
+function! Guess()
+  try
+    call Assert1to10(input('Guess a number: '))
+    echo "\nYou are right!"
+  catch /^Out of range: .*/
+    echo "\nSomething bad..."
+  finally
+    echo 'Thank you for playing'
+  endtry
+endfunction
+
+call Guess()
+```
+
+### オブジェクト指向っぽい書き方について
+
+たとえば、以下のような書き方がある
+
+```vim
+function! NewVec2D(x, y)
+  return {'x': a:x, 'y': a:y, 'len':function("Length")}
+endfunction
+
+function! Length() dict
+  return sqrt(self.x * self.x + self.y * self.y)
+endfunction
+
+let numList = NewVec2D(3, 4)
+echo numList
+echo numList.len()
+
+```
+
+これをさらにオブジェクト指向っぽく改良したのが以下。
+
+```vim
+" メンバ定義部分
+let g:vec2d = {
+      \'x':0, 
+      \'y':0
+      \}
+
+" コンストラクタ
+function! NewVec2D(x, y)
+  let self = copy(g:vec2d)
+  let self.x = a:x
+  let self.y = a:y
+  return self
+endfunction
+
+" メソッド定義
+function! g:vec2d.len() dict
+  return sqrt(self.x * self.x + self.y * self.y)
+endfunction
+
+```
+
+## vimの機能の使い方
+
+### Exコマンド
+
+大前提として、vimスクリプトはExコマンドの拡張である。
+すべてのExコマンドは有効なvimスクリプトである。
