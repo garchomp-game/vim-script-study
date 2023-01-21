@@ -13,11 +13,11 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +510 memo.md
-badd +11 main.vim
+badd +657 memo.md
+badd +8 main.vim
 badd +54 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/pokedex/PokedexController.java
 badd +38 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/item/ItemController.java
-badd +1 ~/.config/nvim/lua/custom/mappings/init.lua
+badd +56 ~/.config/nvim/lua/custom/mappings/init.lua
 badd +41 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/pokedex/StatusController.java
 badd +33 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/translate/TranslateController.java
 badd +53 ~/workspace/pokemon_community_app/myapp/src/main/java/com/example/myapp/controller/type/TypeController.java
@@ -58,6 +58,7 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
 exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 argglobal
+balt main.vim
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -68,12 +69,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 553 - ((48 * winheight(0) + 24) / 49)
+let s:l = 657 - ((48 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 553
-normal! 03|
+keepjumps 657
+normal! 030|
 wincmd w
 argglobal
 if bufexists(fnamemodify("main.vim", ":p")) | buffer main.vim | else | edit main.vim | endif
@@ -164,7 +165,7 @@ wincmd w
 exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
 exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 tabnext
-edit ~/.config/nvim/lua/custom/mappings/init.lua
+edit ~/.config/nvim/lua/custom/init.lua
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -184,7 +185,7 @@ set winwidth=1
 exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
 exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
 argglobal
-balt ~/.config/nvim/lua/custom/plugins/init.lua
+balt ~/.config/nvim/lua/custom/mappings/init.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -195,12 +196,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 56 - ((42 * winheight(0) + 24) / 49)
+let s:l = 1 - ((0 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 56
-normal! 029|
+keepjumps 1
+normal! 0
 wincmd w
 argglobal
 if bufexists(fnamemodify("~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua", ":p")) | buffer ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua | else | edit ~/.config/nvim/lua/custom/plugins/configs/lspconfig.lua | endif
