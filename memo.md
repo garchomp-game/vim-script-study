@@ -1,4 +1,4 @@
-# vim script学習メモ
+ vim script学習メモ
 
 1.0e6や、1.0e-3等、指数を指定する場合は、
 小数点(.)等を省略することはできない。
@@ -661,3 +661,53 @@ silentは、画面の出力を抑制する
 - 編集、操作、出力対象としてのバッファ
 - UI,ビューとしてのバッファ
 - ファイルI/Oとしてのバッファ
+
+### バッファやウィンドウの読み書きについて
+
+バッファの読み書きには、getbufline()とsetline()を使う。
+
+```vim
+let buf = getbufline('my-own-buffer', 11, 15)
+
+call setline(3, 'ううううう')
+```
+
+### ウィンドウについて
+
+window操作は、EXコマンドの:wincmdを使って操作する。
+:wincmd wで\<C-w> wと同じになる。
+
+```vim
+execute '2wincmd w'
+execute {number} . 'wincmd w'
+```
+
+ウィンドウを閉じるとき、setlocal buftype=nofileだったら簡単。
+:closeや:wincmd cで閉じることが可能。
+
+### 正規表現について
+正規表現は、match関数を使って行う。
+
+```vim
+echo match('testing', 'ing')
+```
+
+:set magicとすると、メタ文字を使った検索が可能となる。
+
+```vim
+echo match('abcz', 'a.*z')
+```
+
+matchlistを使うことで、リストを表示させることができる。
+
+```vim
+echo matchlist('az', 'a\(.*\)z')
+```
+
+|関数        |説明                                            |
+|------------|------------------------------------------------|
+|match()     |パターンがマッチした位置を返す                  |
+|matchlist() |パターンにマッチ/サブマッチした文字列を返す     |
+|split()     |文字列をパターンで分割しリストにして返す        |
+|substitute()|パターンにマッチした文字列を置換した文字列を返す|
+|submatch()  |サブマッチを参照する                            |
